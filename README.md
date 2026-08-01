@@ -14,7 +14,7 @@
 
 ## What is Grid Screen?
 
-Grid Screen lets you arrange your desktop windows into **zones** — predefined screen splits like two columns, three columns, or a main area with a sidebar. Instead of manually dragging and resizing every window, you **drag window cards onto a visual canvas** and click **Arrange**. All selected windows snap into place at once.
+Grid Screen lets you assign desktop windows to **zones** — predefined screen splits like two columns, three columns, or a main area with a sidebar. Instead of manually dragging and resizing every window, you **drag window cards onto a visual canvas** and click **Arrange**. Assignments are submitted to the X11 adapter; actual window movement is currently unverified because of the documented X11 protocol limitation.
 
 Built for **general desktop users** who want a tidy workspace without learning tiling window managers or memorizing keyboard shortcuts.
 
@@ -115,7 +115,7 @@ grid-screen/
 │       ├── layout_engine.rs    # Zone rectangle computation
 │       ├── arrange_orchestrator.rs  # Validate-then-move pipeline
 │       ├── platform_adapter.rs     # OS abstraction trait
-│       ├── x11_adapter.rs         # X11/EWMH/XRandR integration
+│       ├── x11_adapter.rs         # X11/EWMH adapter architecture; XRandR/multi-monitor discovery is not implemented
 │       ├── config_store.rs        # Atomic JSON persistence
 │       ├── window_catalog.rs      # Window eligibility filtering
 │       └── diagnostics.rs         # File-based logging
