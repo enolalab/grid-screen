@@ -7,7 +7,6 @@
 [![Rust](https://img.shields.io/badge/rust-1.96+-orange.svg)](https://www.rust-lang.org)
 [![Tauri](https://img.shields.io/badge/tauri-2.0-blue.svg)](https://tauri.app)
 [![Svelte](https://img.shields.io/badge/svelte-5.0-ff3e00.svg)](https://svelte.dev)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 </div>
 
@@ -19,15 +18,12 @@ Grid Screen lets you arrange your desktop windows into **zones** — predefined 
 
 Built for **general desktop users** who want a tidy workspace without learning tiling window managers or memorizing keyboard shortcuts.
 
-<img src=".github/screenshot.png" alt="Grid Screen Arrange view" width="100%">
-
 ## Features
 
 - **5 built-in presets** — Two Columns, Three Columns, Focus + Stack, Main + Sidebar, 3 Wide Center
 - **Drag-and-drop canvas** — assign windows to zones visually before applying
-- **Customizable layouts** — adjust divider ratio, gap, and margin with sliders; save your own layouts
-- **Multiple screens** — select which monitor to arrange
-- **System tray** — runs in the background, open when needed
+- **Customizable layouts** — create and persist two- or three-zone layouts
+- **X11 arrangement** — select the available X11 root screen and place assigned windows
 - **Zero network** — no telemetry, no analytics, no cloud. Everything stays on your machine
 - **Lightweight** — idle CPU <1%, written in Rust
 
@@ -35,25 +31,14 @@ Built for **general desktop users** who want a tidy workspace without learning t
 
 ### Download
 
-Download the latest `.AppImage` or `.deb` from [GitHub Releases](https://github.com/enolalabs/grid-screen/releases).
-
-**AppImage:**
-```bash
-chmod +x grid-screen_*.AppImage
-./grid-screen_*.AppImage
-```
-
-**Debian/Ubuntu:**
-```bash
-sudo dpkg -i grid-screen_*.deb
-```
+The repository is configured to build `.AppImage` and `.deb` bundles for pushed version tags. Check [GitHub Releases](https://github.com/enolalabs/grid-screen/releases) for published artifacts; this repository checkout does not establish that one is available.
 
 ### Requirements
 
-- **Linux** with **X11** session (Xorg). Wayland with XWayland is partially supported.
+- **Linux** with an **X11** session (Xorg).
 - A window manager with **EWMH** support (GNOME, KDE Plasma, Xfce — most modern WMs work).
 
-> **Wayland users:** Grid Screen requires X11. On XWayland, basic functionality works but full screen detection may be limited. Native Wayland support is planned.
+> **Wayland users:** the current Wayland adapter is read-only. It can enumerate some top-level windows but cannot arrange them.
 
 ## Usage
 
@@ -62,24 +47,21 @@ sudo dpkg -i grid-screen_*.deb
 1. Open Grid Screen. The **Arrange** tab shows your running windows on the left.
 2. **Choose a screen** and **layout** from the toolbar.
 3. **Drag window cards** from the catalog into the zones on the canvas.
-4. Adjust the **divider ratio**, **gap**, and **margin** sliders if needed.
-5. Click **Arrange N windows**. All assigned windows snap into their zones.
-
-<img src=".github/usage-arrange.png" alt="Drag windows into zones" width="600">
+4. Click **Arrange N windows**. All assigned windows are submitted for placement.
 
 ### Create Custom Layouts
 
 1. Go to the **Layouts** tab.
-2. Click **Duplicate** on any preset to create a copy.
-3. Give it a name and save.
-4. Switch to Arrange, select your layout, adjust sliders. Changes auto-save on successful arrangement.
+2. Click **New Layout**.
+3. Give it a name, choose two or three zones, and save.
+4. Switch to Arrange and select your layout.
 
 ### Settings
 
-- **Snap modifier & behavior** (coming soon)
-- **Start at Login** — auto-launch Grid Screen when you log in
-- **Minimize to Tray** — keep running when you close the window
-- **System Status** — view session type, EWMH support, connected screens
+- **Snap modifier & behavior** — stored, but not connected to native snapping
+- **Start at Login** — stored, but does not create an autostart entry
+- **Minimize to Tray** — can hide the window on close; tray lifecycle is not implemented
+- **System Status** — view adapter-reported session and EWMH data
 
 ## Development
 
@@ -149,10 +131,10 @@ Svelte UI (webview)
      ↕ Tauri IPC (typed commands + events)
 Rust application core
      ↕ PlatformAdapter trait
-X11 adapter (XRandR + EWMH)
+X11 adapter (EWMH; XRandR detection is deferred)
 ```
 
-The Rust core handles all X11 communication, layout computation, and config persistence. The Svelte webview handles only the UI — drag-and-drop state, canvas rendering, and user input. The webview can be destroyed (window closed) while the Rust core keeps running in the system tray.
+The Rust core handles platform communication, layout computation, and config persistence. The Svelte webview handles drag-and-drop state, canvas rendering, and user input. X11 is the only adapter that moves windows; the Wayland adapter is read-only.
 
 ### Tech Stack
 
@@ -161,7 +143,7 @@ The Rust core handles all X11 communication, layout computation, and config pers
 | Desktop shell | [Tauri 2](https://tauri.app) |
 | Application core | [Rust](https://www.rust-lang.org) |
 | UI framework | [Svelte 5](https://svelte.dev) + [TypeScript](https://www.typescriptlang.org) |
-| X11 integration | [x11rb](https://crates.io/crates/x11rb) |
+| X11 integration | [x11rb](https://crates.io/crates/x11rb) with EWMH window metadata |
 | Config persistence | JSON in `~/.config/grid-screen/` |
 | Logging | [tracing](https://crates.io/crates/tracing) |
 | Drag-and-drop | Pointer-event-based (custom implementation) |
@@ -184,7 +166,3 @@ Contributions are welcome! Here's how to get started:
 - **Modifier-assisted snap** — drag real system windows into zones with a modifier key
 - **Accessibility** — keyboard navigation, screen reader support, ARIA
 - **Testing** — integration tests, X11 test suite, property-based geometry tests
-
-## License
-
-MIT © [Enola Labs](https://github.com/enolalabs)
