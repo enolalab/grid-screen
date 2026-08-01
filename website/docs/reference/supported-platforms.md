@@ -4,7 +4,7 @@ Grid Screen targets Linux desktop environments. The build configuration creates 
 
 ## X11
 
-X11 is the only adapter with a move/resize implementation. It connects using `$DISPLAY`, enumerates windows from `_NET_CLIENT_LIST` (or a root-tree fallback), filters ineligible window types, and uses EWMH-related window metadata.
+X11 is the only intended adapter path for move/resize. It connects using `$DISPLAY`, enumerates windows from `_NET_CLIENT_LIST` (or a root-tree fallback), filters ineligible window types, and uses EWMH-related window metadata. Its actual geometry movement is unverified and may not work; see [compatibility and diagnostics](../user-guide/compatibility-and-diagnostics.md).
 
 The current implementation has one root-screen representation and deferred XRandR extension detection. It does not implement XRandR multi-monitor discovery or per-output arrangement.
 

@@ -6,6 +6,6 @@
 4. Repeat for the windows you want to place.
 5. Select **Arrange _N_ Windows**.
 
-The app validates every assignment before issuing a move. A stale window, an invalid zone index, or a window that is not movable or resizable causes the request to fail without moving any assigned windows. Minimized windows are restored before a move is requested.
+The app validates every assignment before invoking its arrangement path. A stale window, an invalid zone index, or a window that is not movable or resizable causes the request to fail before the adapter is called. Minimized windows are restored before the adapter is invoked. On X11, the subsequent geometry operation is unverified and may not move a window; see [compatibility and diagnostics](../user-guide/compatibility-and-diagnostics.md).
 
 Use **Clear All** to remove the in-memory zone assignments. It does not delete layouts or settings.

@@ -4,7 +4,8 @@ This page records the distinction between UI or type-level intent and behavior c
 
 ## Current limitations
 
-- X11 is the only adapter that moves windows.
+- X11 is the intended and only adapter path for movement, but actual move/resize behavior is unverified and may not work.
+- `X11Adapter::move_resize_window` uses `_NET_WM_STATE` at `src-tauri/src/x11_adapter.rs:376-381` rather than a valid `_NET_MOVERESIZE_WINDOW` geometry message. It can return success after send/flush without evidence that a window manager applied geometry.
 - Wayland window data is read-only and arrangement is disabled.
 - X11 uses one root-screen representation. Multi-monitor XRandR output discovery and selection are not implemented.
 - The UI's ratio, gap, and margin sliders remain session overrides and are not sent in the arrange request.

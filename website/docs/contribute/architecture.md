@@ -15,6 +15,6 @@ Svelte components and stores
 
 `shared-types/src/lib.rs` is the Rust source of the serializable IPC shapes, including `Layout`, `Settings`, `ArrangeRequest`, `ArrangeResult`, and adapter capability data.
 
-`layout_engine.rs` turns a persisted layout plus a screen work area into zone rectangles and validates layout bounds. `arrange_orchestrator.rs` performs all-assignment validation before issuing adapter moves, restores minimized windows, and adjusts requested geometry for frame extents. `platform_adapter.rs` defines the abstraction used by X11, Wayland, and tests.
+`layout_engine.rs` turns a persisted layout plus a screen work area into zone rectangles and validates layout bounds. `arrange_orchestrator.rs` performs all-assignment validation before invoking adapter geometry paths, restores minimized windows, and adjusts requested geometry for frame extents. `platform_adapter.rs` defines the abstraction used by X11, Wayland, and tests.
 
-The platform boundary is intentionally important: only the X11 adapter can currently move windows. The Wayland adapter supplies read-only window data and reports arrangement as unsupported.
+The platform boundary is intentionally important: X11 is the only intended adapter path for movement, but its actual move/resize behavior is unverified because it constructs the wrong client-message type. The Wayland adapter supplies read-only window data and reports arrangement as unsupported.

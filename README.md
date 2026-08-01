@@ -23,7 +23,7 @@ Built for **general desktop users** who want a tidy workspace without learning t
 - **5 built-in presets** — Two Columns, Three Columns, Focus + Stack, Main + Sidebar, 3 Wide Center
 - **Drag-and-drop canvas** — assign windows to zones visually before applying
 - **Customizable layouts** — create and persist two- or three-zone layouts
-- **X11 arrangement** — select the available X11 root screen and place assigned windows
+- **X11 arrangement path** — select the available X11 root screen and submit assigned windows; actual movement is currently unverified
 - **Zero network** — no telemetry, no analytics, no cloud. Everything stays on your machine
 - **Lightweight** — idle CPU <1%, written in Rust
 
@@ -134,7 +134,7 @@ Rust application core
 X11 adapter (EWMH; XRandR detection is deferred)
 ```
 
-The Rust core handles platform communication, layout computation, and config persistence. The Svelte webview handles drag-and-drop state, canvas rendering, and user input. X11 is the only adapter that moves windows; the Wayland adapter is read-only.
+The Rust core handles platform communication, layout computation, and config persistence. The Svelte webview handles drag-and-drop state, canvas rendering, and user input. X11 is the only intended movement path, but its actual move/resize behavior is unverified; the Wayland adapter is read-only.
 
 ### Tech Stack
 

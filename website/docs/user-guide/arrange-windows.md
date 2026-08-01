@@ -6,10 +6,10 @@ Selecting Arrange sends only three values to the Rust command: the selected layo
 
 1. Finds the saved layout and screen.
 2. Computes zone rectangles from the saved layout.
-3. Validates all assignments before moving any window.
-4. Restores minimized windows, accounts for frame extents, and asks the active platform adapter to move and resize each window.
+3. Validates all assignments before invoking the platform adapter.
+4. Restores minimized windows, accounts for frame extents, and invokes the active adapter's geometry path for each window.
 
-On X11, this uses the adapter's EWMH request path. A successful command means the adapter accepted and flushed the request; window managers remain responsible for applying it.
+On X11, this is the only intended arrangement path, not verified working movement. The adapter returns success after its send and flush calls, but its current client message uses `_NET_WM_STATE` rather than a valid `_NET_MOVERESIZE_WINDOW` geometry message. A successful command therefore does not demonstrate that a window manager applied geometry, and windows may not move.
 
 ## Sliders
 
