@@ -7,3 +7,4 @@ shared-types/bindings/
 .DS_Store
 *.log
 .superpowers/
+.wrangler/
