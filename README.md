@@ -134,7 +134,7 @@ Rust application core
 X11 adapter (EWMH; XRandR detection is deferred)
 ```
 
-The Rust core handles platform communication, layout computation, and config persistence. The Svelte webview handles drag-and-drop state, canvas rendering, and user input. X11 is the only intended movement path, but its actual move/resize behavior is unverified; the Wayland adapter is read-only.
+The Rust core handles platform communications, layout computation, and config persistence. The Svelte webview handles drag-and-drop state, canvas rendering, and user input. X11 is the only intended movement path, but its actual move/resize behavior is unverified; the Wayland adapter is read-only.
 
 ### Tech Stack
 
